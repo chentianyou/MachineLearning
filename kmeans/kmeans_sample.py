@@ -5,8 +5,8 @@ import sys
 import tensorflow as tf
 from tensorflow.contrib import factorization
 
-tf.app.flags.DEFINE_string("config", "", "the config of kmeans")
-FLAGS = tf.app.flags.FLAGS
+tf.flags.DEFINE_string("config", "", "the config of kmeans")
+FLAGS = tf.flags.FLAGS
 
 
 class KMeansConfig(object):
@@ -38,11 +38,6 @@ class KMeansConfig(object):
         else:
             self.batch_size = 50
 
-        if "data_type" in config:
-            self.data_type = config["data_type"]
-        else:
-            ValueError("config must specify data_type")
-
         if "have_label" in config:
             self.have_label = config["have_label"]
         else:
@@ -53,15 +48,18 @@ class KMeansConfig(object):
         else:
             self.num_input = None
 
-        if not isinstance(self.data_type, list):
-            ValueError("data_type must be list")
-        self.default_value = []
-        self.default_dic = {"DT_STRING": "", "DT_FLOAT": 0.0, "DT_INT64": 0}
-        for dtype in self.data_type:
-            if dtype in self.default_dic:
-                self.default_value.append([self.default_dic[dtype]])
-            else:
-                ValueError("data_type %s is error, must be DT_STRING,DT_FLOAT or DT_INT64" % dtype)
+        # if not isinstance(self.data_type, list):
+        #     ValueError("data_type must be list")
+        # self.default_value = []
+        # self.default_dic = {"DT_STRING": "", "DT_FLOAT": 0.0, "DT_INT64": 0}
+        # for dtype in self.data_type:
+        #     if dtype in self.default_dic:
+        #         self.default_value.append([self.default_dic[dtype]])
+        #     else:
+        #         ValueError("data_type %s is error, must be DT_STRING,DT_FLOAT or DT_INT64" % dtype)
+
+    def get_ont_hot_features(self):
+        pass
 
 
 def main(_):
@@ -76,18 +74,6 @@ def main(_):
     else:
         raise ValueError("path %s is not exists." % config.data_dir)
 
-    # dfs = []
-    # for filename in files:
-    #     dfs.append(pd.read_csv(filename, header=None))
-    # credits_data = pd.concat(dfs, ignore_index=True)
-    # columns = credits_data.columns
-    # train_data = credits_data[columns[:-1]].values
-    # label_data = credits_data[columns[-1]].values
-    # train_data_scale = preprocessing.scale(train_data)
-    #
-    # def input_feature_fn():
-    #     return tf.train.limit_epochs(
-    #         tf.convert_to_tensor(train_data_scale, dtype=tf.float32), num_epochs=1)
     def input_feature_fn(is_feature=True):
         def data_decode(records):
             columns = tf.decode_csv(records=records, record_defaults=config.default_value)
@@ -113,7 +99,7 @@ def main(_):
         config.n_cluster,
         model_dir=config.model_dir,
         use_mini_batch=True,
-        mini_batch_steps_per_iteration=iter_step,
+        mini_batch_stepss_per_iteration=iter_step,
         feature_columns=feature_columns,
     )
     # train

@@ -2,14 +2,74 @@
   "data_dir": "data/",
   "model_dir": "model_dir/iris",
   "n_cluster": 3,
-  "data_type": [
-    "DT_FLOAT",
-    "DT_FLOAT",
-    "DT_FLOAT",
-    "DT_FLOAT",
-    "DT_STRING"
-  ],
   "epoch": 10,
   "batch_size": 15,
-  "num_input": 145
+  "num_input": 145,
+  "data_config": {
+    "columns": [
+      {
+        "name": "key1",
+        "type": "DT_FLOAT",
+        "index": 0,
+        "kind": 0,
+        "n_class": null,
+        "mean": 5.84620689655172,
+        "std_dev": 0.826126874254926
+      },
+      {
+        "name": "key2",
+        "type": "DT_FLOAT",
+        "index": 1,
+        "kind": 0,
+        "n_class": null,
+        "mean": 3.04275862068966,
+        "std_dev": 0.433708121712589
+      },
+      {
+        "name": "key3",
+        "type": "DT_FLOAT",
+        "index": 2,
+        "kind": 0,
+        "n_class": null,
+        "mean": 3.79517241379311,
+        "std_dev": 1.75382659601631
+      },
+      {
+        "name": "key4",
+        "type": "DT_FLOAT",
+        "index": 3,
+        "kind": 0,
+        "n_class": null,
+        "mean": 1.21586206896552,
+        "std_dev": 0.759371415377397
+      },
+      {
+        "name": "key5",
+        "type": "DT_STRING",
+        "index": 4,
+        "kind": 1,
+        "n_class": null,
+        "mean": null,
+        "std_dev": null
+      }
+    ],
+    "cross_column": [
+      {
+        "columns": [
+          "key1",
+          "key2"
+        ],
+        "boundaries": {
+          "key1": [
+            5,
+            6
+          ],
+          "key2": [
+            3,
+            4
+          ]
+        }
+      }
+    ]
+  }
 }
